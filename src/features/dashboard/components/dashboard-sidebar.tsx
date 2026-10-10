@@ -131,7 +131,7 @@ export function DashboardSidebar() {
     },
     {
       title: "Help and support",
-      url: "mailto:ankurpathak795@gmail.com",
+      url: "mailto:hs978698@gmail.com",
       icon: Headphones,
     },
   ];
@@ -144,19 +144,25 @@ export function DashboardSidebar() {
     />
     <Sidebar collapsible="icon">
       <SidebarHeader className="flex flex-col gap-4 pt-4">
-        <div 
-        className="flex items-center gap-2 pl-1 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:pl-0">
-          <Image
-            src="/logo.svg"
-            alt="Resonance"
-            width={24}
-            height={24}
-            className="rounded-sm"
-          />
-          <span className="group-data-[collapsible=icon]:hidden font-semibold text-lg tracking-tighter text-foreground">
-            Resonance
-          </span>
-          <SidebarTrigger className="ml-auto lg:hidden" />
+        <div
+        className="flex items-center gap-2 pl-1 group-data-[collapsible=icon]:pl-0">
+          <Link
+            href="/"
+            aria-label="Go to homepage"
+            className="flex items-center gap-2 group-data-[collapsible=icon]:hidden"
+          >
+            <Image
+              src="/logo.svg"
+              alt="Resonance"
+              width={24}
+              height={24}
+              className="rounded-sm"
+            />
+            <span className="font-semibold text-lg tracking-tighter text-foreground">
+              Resonance
+            </span>
+          </Link>
+          <SidebarTrigger className="ml-auto group-data-[collapsible=icon]:mx-auto" />
         </div>
         <SidebarMenu>
           <SidebarMenuItem>

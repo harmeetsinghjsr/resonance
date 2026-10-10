@@ -1,6 +1,7 @@
 """Chatterbox TTS API - Text-to-speech with voice cloning on Modal."""
 
 import modal
+import os
 
 # Use this to add R2 tokens:
 #  modal secret create cloudflare-r2 \
@@ -20,8 +21,11 @@ import modal
 #   --output output.wav
 
 # R2 cloud bucket mount (read-only, replaces Modal Volume)
-R2_BUCKET_NAME = "resonance-app"
-R2_ACCOUNT_ID = "0461e1ecd65796c1ed1470bf74dc1eb9"
+# Values are read from the local environment when you run `modal deploy`.
+# Defaults below are your own R2 account/bucket. Export R2_BUCKET_NAME /
+# R2_ACCOUNT_ID before deploying to override them.
+R2_BUCKET_NAME = os.environ.get("R2_BUCKET_NAME", "resonance")
+R2_ACCOUNT_ID = os.environ.get("R2_ACCOUNT_ID", "cc54ca9d3b83bd9545bd9ea114b5052f")
 R2_MOUNT_PATH = "/r2"
 r2_bucket = modal.CloudBucketMount(
     R2_BUCKET_NAME,

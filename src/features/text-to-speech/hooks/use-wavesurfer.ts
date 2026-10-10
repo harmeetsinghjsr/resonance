@@ -99,6 +99,33 @@ export function useWaveSurfer({
     wavesurferRef.current?.playPause();
   }, []);
 
+  // Spacebar toggles play/pause — but not while typing in a field or when a
+  // button/link is focused (so Space still works normally there).
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.code !== "Space") return;
+      if (!wavesurferRef.current) return;
+
+      const target = e.target as HTMLElement | null;
+      const tag = target?.tagName;
+      if (
+        tag === "INPUT" ||
+        tag === "TEXTAREA" ||
+        tag === "BUTTON" ||
+        tag === "A" ||
+        target?.isContentEditable
+      ) {
+        return;
+      }
+
+      e.preventDefault();
+      wavesurferRef.current.playPause();
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
   const seekForward = useCallback((seconds = 5) => {
     const ws = wavesurferRef.current;
     if (!ws) return;
