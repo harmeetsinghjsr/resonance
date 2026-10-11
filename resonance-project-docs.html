@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resonance Project - Complete Documentation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="doc_styles_v2.css">
+    <style>
+        /* Enhanced visual elements */
+        .hero h1 { text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+        .hero .subtitle { font-weight: 500; }
+        .section-number {
+            display: inline-block;
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 36px;
+            font-weight: 700;
+            margin-right: 10px;
+            font-size: 0.9em;
+        }
+        .section h2 span { color: var(--accent-primary); }
+        .architecture-diagram {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            color: #cbd5e1;
+            padding: 25px;
+            border-radius: 15px;
+            font-family: 'Fira Code', monospace;
+            margin: 20px 0;
+            white-space: pre-wrap;
+            overflow-x: auto;
+            border: 1px solid #475569;
+            position: relative;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        .architecture-diagram span { color: #60a5fa; }
+        .architecture-diagram .arrow { color: #38bdf8; font-weight: bold; }
+        .tech-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 8px;
+            font-size: 0.8em;
+            font-weight: 600;
+            margin: 2px;
+            transition: transform 0.2s;
+        }
+        .tech-badge:hover { transform: scale(1.05); }
+        .badge-next { background: linear-gradient(135deg, #000 0%, #333 100%); color: white; }
+        .badge-trpc { background: linear-gradient(135deg, #2563eb, #7c3aed); color: white; }
+        .badge-turbo { background: linear-gradient(135deg, #7c3aed, #db27b5); color: white; }
+        .badge-r2 { background: linear-gradient(135deg, #0d9488, #10b981); color: white; }
+        .badge-pg { background: linear-gradient(135deg, #0f4c81, #3b82f6); color: white; }
+        .badge-clerk { background: linear-gradient(135deg, #6366f1, #2563eb); color: white; }
+        .badge-polar { background: linear-gradient(135deg, #ec4899, #be123c); color: white; }
+        .badge-wave { background: linear-gradient(135deg, #0369a1, #0d9488); color: white; }
+        .highlight-box {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde047 100%);
+            border-left: 4px solid #f59e0b;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+            animation: pulse 3s ease-in-out infinite;
+        }
+        .highlight-box strong { color: #92400e; }
+        .key-takeaway {
+            background: linear-gradient(135deg, #dcfce7 0%, #86efac 100%);
+            border-left: 4px solid #16a34a;
+            padding: 12px 18px;
+            margin: 12px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .key-takeaway strong { color: #14532d; }
+        .warning-box {
+            background: linear-gradient(135deg, #fee2e2 0%, #fec8d4 100%);
+            border-left: 4px solid #ef4444;
+            padding: 12px 18px;
+            margin: 12px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .warning-box strong { color: #7f1d1d; }
+
+        /* Responsive design enhancements */
+        @media (max-width: 1024px) {
+            .hero h1 { font-size: 2.5em; }
+            .section { padding: 25px; }
+            table { font-size: 0.9em; }
+            th, td { padding: 10px 12px; }
+        }
+        @media (max-width: 768px) {
+            body { padding: 10px; }
+            .hero { padding: 40px 20px; }
+            .hero h1 { font-size: 2em; }
+            .hero p { font-size: 1.1em; }
+            .section { padding: 20px; margin-bottom: 15px; }
+            .section h2 { font-size: 1.5em; }
+            .nav { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="hero">
+        <div class="hero-glow"></div>
+        <h1>🎙️ Resonance Project</h1>
+        <p class="hero-subtitle">A Self-Hosted Voice Cloning &amp; Text-to-Speech Platform</p>
+        <p class="subtitle">Complete Technical Documentation &amp; Interview Guide — Built with Next.js 16, tRPC, Modal GPU, R2, PostgreSQL</p>
+        <div class="tags">
+            <span class="tech-badge badge-next">Next.js 16</span>
+            <span class="tech-badge badge-trpc">tRPC</span>
+            <span class="tech-badge badge-turbo">Chatterbox TTS</span>
+            <span class="tech-badge badge-r2">Modal GPU</span>
+            <span class="tech-badge badge-r2">Cloudflare R2</span>
+            <span class="tech-badge badge-pg">PostgreSQL</span>
+            <span class="tech-badge badge-clerk">Clerk Auth</span>
+            <span class="tech-badge badge-polar">Polar Billing</span>
+            <span class="tech-badge badge-wave">WaveSurfer</span>
+        </div>
+    </div>
+
+    <div class="nav">
+        <strong>📚 Table of Contents:</strong>
+        <a href="#overview">1. Overview</a>
+        <a href="#architecture">2. Architecture</a>
+        <a href="#datamodel">3. Data Model</a>
+        <a href="#request-flow">4. Request Flow</a>
+        <a href="#storage">5. Storage & Security</a>
+        <a href="#components">6. Key Components</a>
+        <a href="#interview">7. Interview Q&A</a>
+        <a href="#alternatives">8. Tooling Alternatives</a>
+        <a href="#deployment">9. Deployment</a>
+        <a href="#cheatsheet">10. Cheat Sheet</a>
+    </div>
+
+    <div class="section" id="overview">
+        <h2><span class="section-number">1</span>Project Overview &amp; Value Proposition</h2>
+        <p><strong>Resonance</strong> is a production-ready text-to-speech and voice cloning platform that serves as an alternative to ElevenLabs. Instead of paying per-character API fees, organizations self-host the open-source Chatterbox TTS model and only pay for GPU compute time.</p>
+
+        <h3>Core Value Proposition</h3>
+        <p>The app provides a complete SaaS experience with multi-tenancy, billing, and secure file storage — but the voice generation itself runs on rented GPUs rather than through a third-party API. This gives organizations full control over their voice data and cost model.</p>
+
+        <div class="architecture-diagram">
+┌─────────────────────────────────────────────────────────────────┐
+│                           USER FLOW                              │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  Browser (Next.js/React)                                         │
+│  - Type text into form                                           │
+│  - Select voice & tune params (temperature, top-p, top-k)       │
+│  - Click "Generate"                                              │
+│      ↓ tRPC mutation: generations.create({...})                 │
+│                                                                  │
+│  Next.js Server (API Layer)                                      │
+│  1️⃣  Auth Check → Clerk (who is this user? which org?)          │
+│  2️⃣  Billing Check → Polar (does org have active subscription?)  │
+│  3️⃣  Voice Lookup → PostgreSQL (what's their voice file path?)   │
+│  4️⃣  GPU Call → Chatterbox (Modal GPU endpoint via HTTP)         │
+│  5️⃣  Store Audio → Cloudflare R2 (private bucket)               │
+│  6️⃣  Record Generation → PostgreSQL (save generation record)    │
+│  7️⃣  Bill Usage → Polar (fire-and-forget usage event)           │
+│      ↓ Returns { id: generationId }                              │
+│                                                                  │
+│  Browser (Playback)                                              │
+│  - Redirect to /text-to-speech/{id}                              │
+│  - Load WaveSurfer.js waveform via /api/audio/{id} proxy         │
+│  - Audio stream from R2 (presigned URL)                          │
+│                                                                  │
+└─────────────────────────────────────────────────────────────────┘
+        </div>
+
+        <h3>Key Features</h3>
+        <ul>
+            <li>🎙️ <strong>Text-to-speech generation</strong> with adjustable parameters (temperature: 0-2, top-p: 0-1, top-k: 1-10000, repetition penalty: 1-2)</li>
+            <li>🗣️ <strong>20 built-in system voices</strong> — shared across all organizations</li>
+            <li>🎤 <strong>Custom voice upload</strong> — organizations can upload reference audio for cloning</li>
+            <li>📜 <strong>Generation history</strong> — revisit, play, and download past generations</li>
+            <li>🏢 <strong>Multi-tenant organizations</strong> — auth and data scoped per organization via Clerk</li>
+            <li>💳 <strong>Subscription billing</strong> — Polar for checkout and usage metering</li>
+            <li>🌊 <strong>Interactive waveform</strong> — WaveSurfer.js playback with download support</li>
+            <li>📱 <strong>Responsive design</strong> — dedicated mobile drawers for settings, voice selection, history</li>
+            <li>🔭 <strong>Full observability</strong> — Sentry across client, server, and edge runtimes</li>
+        </ul>
+    </div>
+
+    <div class="section" id="architecture">
+        <h2><span class="section-number">2</span>System Architecture</h2>
+        <p>The system is split across <strong>three logical tiers</strong>:</p>
+
+        <div class="question">
+            <strong>Architecture Stack Breakdown:</strong>
+            <div class="answer">
+                <table>
+                    <tr><th>Layer</th><th>Technology</th><th>Alternatives</th></tr>
+                    <tr><td><strong>Frontend</strong></td><td>Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS, shadcn/ui (Radix primitives)</td><td>React+Vite, SvelteKit, Nuxt, Remix</td></tr>
+                    <tr><td><strong>API Layer</strong></td><td>tRPC (type-safe RPC), TanStack Query, TanStack Form + Zod</td><td>REST+OpenAPI, GraphQL, Socket.io</td></tr>
+                    <tr><td><strong>Database</strong></td><td>PostgreSQL via Prisma ORM</td><td>MySQL, PlanetScale, Supabase, Drizzle ORM</td></tr>
+                    <tr><td><strong>Auth</strong></td><td>Clerk (orgs, SSO, MFA)</td><td>Auth.js, Supabase Auth, Firebase Auth</td></tr>
+                    <tr><td><strong>Billing</strong></td><td>Polar (subscriptions + usage metering)</td><td>Stripe, Paddle, LemonSqueezy</td></tr>
+                    <tr><td><strong>Voice Model</strong></td><td>Chatterbox TTS (open-source)</td><td>ElevenLabs API, Coqui, Piper, Kokoro</td></tr>
+                    <tr><td><strong>GPU/Compute</strong></td><td>Modal (serverless GPU on A10G)</td><td>AWS EC2, RunPod, Replicate, Lambda GPU</td></tr>
+                    <tr><td><strong>Storage</strong></td><td>Cloudflare R2 (S3-compatible)</td><td>AWS S3, GCS, Backblaze B2</td></tr>
+                    <tr><td><strong>Playback</strong></td><td>WaveSurfer.js</td><td>Howler.js, Web Audio API</td></tr>
+                    <tr><td><strong>Observability</strong></td><td>Sentry (client, server, edge)</td><td>Datadog, NewRelic, LogRocket</td></tr>
+                    <tr><td><strong>Forms</strong></td><td>@tanstack/react-form + Zod</td><td>React Hook Form + Zod</td></tr>
+                    <tr><td><strong>URL State</strong></td><td>nuqs (type-safe URL search params)</td><td>Custom hooks, query-string</td></tr>
+                </table>
+            </div>
+        </div>
+
+    <div class="section" id="datamodel">
+        <h2><span class="section-number">3</span>Data Model (Prisma Schema)</h2>
+        <p>Source: <code>prisma/schema.prisma</code></p>
+
+        <h3>Models &amp; Relationships</h3>
+        <pre><code>model Voice {
+  id          String        @id @default(cuid())
+  orgId       String?       // NULL for SYSTEM voices, set for CUSTOM
+  name        String?       // "Narrator", "Customer Service Pro", etc.
+  description String?       // Optional human-readable description
+  variant     VoiceVariant  // SYSTEM | CUSTOM
+  category    VoiceCategory // AUDIOBOOK | CONVERSATIONAL | etc.
+  language    String?       @default("en-US")
+  r2ObjectKey String?       // Path to reference audio in R2
+  generations Generation[]   // One-to-many: voice → many generations
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@index([variant])   // Fast filter: system vs custom
+  @@index([orgId])      // Fast filter: by organization
+}
+
+model Generation {
+  id        String   @id @default(cuid())
+  orgId     String   // ALWAYS set (scoped to org)
+  voiceId   String?  // References Voice (can be null if deleted)
+  voice     Voice?   @relation(fields: [voiceId], references: [id], onDelete: SetNull)
+  text      String   // The input text that was spoken
+  voiceName String   // Snapshot of voice name at generation time
+  r2ObjectKey String? // Path to generated audio in R2
+  temperature    Float  // 0.0 - 2.0
+  topP           Float  // 0.0 - 1.0
+  topK           Int    // 1 - 10000
+  repetitionPenalty Float // 1.0 - 2.0
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([orgId])    // Fast filter: by organization
+  @@index([voiceId])  // Fast reverse lookup: voice → generations
+}</code></pre>
+
+        <h3>Enums</h3>
+        <pre><code>enum VoiceVariant {
+  SYSTEM    // Shared across all orgs (the 20 built-in voices)
+  CUSTOM    // Uploaded by a specific organization
+}
+
+enum VoiceCategory {
+  AUDIOBOOK, CONVERSATIONAL, CUSTOMER_SERVICE, GENERAL, NARRATIVE,
+  CHARACTERS, MEDITATION, MOTIVATIONAL, PODCAST, ADVERTISING,
+  VOICEOVER, CORPORATE
+}</code></pre>
+
+        <h3>Key Design Decisions in the Schema</h3>
+        <ul>
+            <li><strong>Soft relationship via SetNull</strong>: If a Voice is deleted, its Generations remain with <code>voiceId: null</code> — you keep the audio but unlink the voice. This preserves generation history.</li>
+            <li><strong>orgId on both tables</strong>: Multi-tenancy enforced at the database level — no cross-org data leakage even if API logic has bugs.</li>
+            <li><strong>VoiceName snapshot</strong>: <code>Generation.voiceName</code> stores a copy of the voice name at generation time. If the voice is later renamed or deleted, the generation's metadata is preserved.</li>
+            <li><strong>r2ObjectKey nullable on Generation</strong>: Allows for the atomic two-phase pattern — create record first, upload audio, then link.</li>
+            <li><strong>cuid() IDs</strong>: Collision-resistant, short, URL-safe. Generated client-side, so we know the ID before the DB write completes.</li>
+        </ul>
+    </div>
+
+    <div class="section" id="request-flow">
+        <h2><span class="section-number">4</span>The Complete Request Flow</h2>
+        <div class="question">
+            <strong>Interview Question: What exactly happens when a user submits text?</strong>
+            <div class="answer">
+                <p>Here's the 10-step trace from button click to audio playback:</p>
+
+                <h4>Step 1-2: Form Submission & Validation</h4>
+                <p><span class="tag-frontend">Frontend: text-to-speech-form.tsx</span></p>
+                <pre><code>// User fills form, clicks "Generate"
+onSubmit: async ({ value }) => {
+  const data = await createMutation.mutateAsync({
+    text: "Hello world",
+    voiceId: "voice_abc123",
+    temperature: 0.8,
+    topP: 0.95,
+    topK: 1000,
+    repetitionPenalty: 1.2,
+  });
+  router.push(`/text-to-speech/${data.id}`);
+}</code></pre>
+                <p>TanStack Form validates the input against the Zod schema. Only if validation passes does the tRPC mutation fire.</p>
+
+                <h4>Step 3: Authentication (orgProcedure middleware)</h4>
+                <p><span class="tag-backend">Backend: src/trpc/init.ts:48</span></p>
+                <pre><code>// This middleware wraps EVERY protected endpoint
+export const orgProcedure = baseProcedure.use(async ({ next }) => {
+  const { userId, orgId } = await auth();  // Clerk server-side auth
+  if (!userId) throw new TRPCError({ code: "UNAUTHORIZED" });
+  if (!orgId)  throw new TRPCError({ code: "FORBIDDEN", message: "Organization required" });
+  return next({ ctx: { userId, orgId } });  // Available in all downstream
+});</code></pre>
+                <p>The middleware calls Clerk's server-side <code>auth()</code>, which extracts the session token from the request. If there's no user or no organization, the request is rejected before any business logic runs.</p>
+            </div>
+        </div>
+
+                <h4>Step 4: Billing Check (Paywall)</h4>
+                <p><span class="tag-backend">Backend: src/trpc/routers/generations.ts:59</span></p>
+                <pre><code>try {
+  const customerState = await polar.customers.getStateExternal({
+    externalId: ctx.orgId,
+  });
+  const hasActiveSubscription = (customerState.activeSubscriptions ?? []).length > 0;
+  if (!hasActiveSubscription) {
+    throw new TRPCError({
+      code: "FORBIDDEN",
+      message: "SUBSCRIPTION_REQUIRED",
+    });
+  }
+} catch (err) {
+  if (err instanceof TRPCError) throw err;
+  // Customer doesn't exist in Polar yet → no subscription
+  throw new TRPCError({ code: "FORBIDDEN", message: "SUBSCRIPTION_REQUIRED" });
+}</code></pre>
+                <p>This prevents free orgs from generating audio. The frontend catches <code>"SUBSCRIPTION_REQUIRED"</code> and shows a "Subscribe" button in the toast.</p>
+
+                <h4>Step 5: Voice Lookup (Multi-tenant)</h4>
+                <p><span class="tag-database">Backend: src/trpc/routers/generations.ts:81</span></p>
+                <pre><code>const voice = await prisma.voice.findUnique({
+  where: {
+    id: input.voiceId,
+    OR: [
+      { variant: "SYSTEM" },                    // Anyone can use system voices
+      { variant: "CUSTOM", orgId: ctx.orgId }   // Only this org's custom voices
+    ],
+  },
+  select: { id: true, name: true, r2ObjectKey: true },
+});
+if (!voice) throw new TRPCError({ code: "NOT_FOUND", message: "Voice not found" });</code></pre>
+                <p>This OR filter is the critical security boundary — it ensures org A can never access org B's custom voice uploads. The <code>r2ObjectKey</code> is where the voice's reference audio lives in R2.</p>
+
+                <h4>Step 6: GPU Inference (Chatterbox)</h4>
+                <p><span class="tag-ai">Backend: src/lib/chatterbox-client.ts + chatterbox_tts.py</span></p>
+                <pre><code>// Typed HTTP client created with openapi-fetch
+const { data, error } = await chatterbox.POST("/generate", {
+  body: {
+    prompt: input.text,
+    voice_key: voice.r2ObjectKey,  // e.g. "voices/system/narrator.wav"
+    temperature: input.temperature,    // 0.8
+    top_p: input.topP,                // 0.95
+    top_k: input.topK,                // 1000
+    repetition_penalty: input.repetitionPenalty, // 1.2
+    norm_loudness: true,
+  },
+  parseAs: "arrayBuffer",
+});
+
+// The Python service receives this and runs:
+# chatterbox_tts.py (Modal/FastAPI)
+wav = self.model.generate(
+  prompt=request.prompt,
+  audio_prompt_path=voice_path,  // the reference audio for cloning
+  temperature=request.temperature,
+  top_p=request.top_p,
+  ...
+)</code></pre>
+                <p>The <code>chatterbox</code> client is an <code>openapi-fetch</code> instance with the API key pre-configured. It receives raw WAV bytes back as an ArrayBuffer. The Python service loads the Chatterbox model on an A10G GPU on Modal, runs the generation, and streams back the WAV file.</p>
+
+                <h4>Step 7: Storage (Create → Upload → Link)</h4>
+                <p><span class="tag-database">Backend: src/trpc/routers/generations.ts:147</span> + <span class="tag-storage">src/lib/r2.ts</span></p>
+                <pre><code>// PHASE 1: Create DB record first (without audio)
+const generation = await prisma.generation.create({
+  data: {
+    orgId: ctx.orgId,
+    text: input.text,
+    voiceName: voice.name || "",
+    voiceId: voice.id,
+    temperature: input.temperature,
+    topP: input.topP,
+    topK: input.topK,
+    repetitionPenalty: input.repetitionPenalty,
+  },
+  select: { id: true },  // We only need the ID now
+});
+
+// PHASE 2: Generate R2 key using the DB-generated ID
+const r2ObjectKey = `generations/orgs/${ctx.orgId}/${generation.id}`;
+
+// PHASE 3: Upload WAV to R2
+await uploadAudio({ buffer, key: r2ObjectKey });
+
+// PHASE 4: Link the R2 key back to the record
+await prisma.generation.update({
+  where: { id: generation.id },
+  data: { r2ObjectKey },
+});</code></pre>
+                <p><strong>Why this order?</strong> We need the database-generated ID to construct a deterministic R2 path. By creating the record first, we get a stable ID. If the upload fails in Phase 3, the catch block deletes the orphanced DB record, leaving no data inconsistency.</p>
+                <p><strong>R2 Upload:</strong> <code>[src/lib/r2.ts](src/lib/r2.ts)</code> uses the AWS S3 SDK (<code>PutObjectCommand</code>) pointed at Cloudflare R2. The client is initialized with R2 credentials and the bucket name from environment variables.</p>
+
+                <h4>Step 8: Billing Meter (Fire-and-Forget)</h4>
+                <p><span class="tag-backend">Backend: src/trpc/routers/generations.ts:212</span></p>
+                <pre><code>// Report usage to Polar for billing
+polar.events
+  .ingest({
+    events: [
+      {
+        name: "tts_generation",
+        externalCustomerId: ctx.orgId,
+        metadata: { characters: input.text.length },
+        timestamp: new Date(),
+      },
+    ],
+  })
+  .catch(() => {
+    // Silently fail — don't break generation for metering errors
+  });</code></pre>
+                <p>This reports how many characters the org consumed. The <code>.catch()</code> means billing errors never break TTS generation — the user always gets their audio even if metering fails.</p>
+
+                <h4>Step 9: Return & Redirect</h4>
+                <pre><code>return { id: generationId };  // Frontend router.push(`/text-to-speech/${id}`)</code></pre>
+
+                <h4>Step 10: Playback</h4>
+                <p><span class="tag-frontend">Frontend: use-wavesurfer.ts + api/audio/[id]/route.ts</span></p>
+                <pre><code>// Browser navigates to /text-to-speech/{id}
+// WaveSurfer hook fetches /api/audio/{id}
+// Server route (src/app/api/audio/[generationId]/route.ts):
+const { userId, orgId } = await auth();
+const generation = await prisma.generation.findUnique({
+  where: { id: generationId, orgId }  // Ownership check
+});
+if (!generation.r2ObjectKey) return 409;  // Not ready yet
+const signedUrl = await getSignedAudioUrl(generation.r2ObjectKey);
+const audioResponse = await fetch(signedUrl);
+return new Response(audioResponse.body, {
+  headers: { "Content-Type": "audio/wav", "Cache-Control": "private, max-age=3600" }
+});</code></pre>
+                <p>The audio is streamed through a secure proxy — the browser never sees R2 credentials or direct URLs.</p>
+            </div>
+        </div>
+
+    <div class="section" id="storage">
+        <h2><span class="section-number">5</span>Storage &amp; Security Architecture</h2>
+
+        <h3>Cloudflare R2: The Audio Bucket</h3>
+        <p><span class="tag-storage">src/lib/r2.ts</span> — All audio lives here, private by default.</p>
+        <pre><code>// R2 client initialized with S3-compatible endpoint
+const r2 = new S3Client({
+  region: "auto",
+  endpoint: `https://${env.R2_ACCOUNT_ID}.r2.cloudflarestorage.com`,
+  credentials: {
+    accessKeyId: env.R2_ACCESS_KEY_ID,
+    secretAccessKey: env.R2_SECRET_ACCESS_KEY,
+  },
+});
+
+// Upload (server-side only)
+async function uploadAudio({ buffer, key, contentType = "audio/wav" }): Promise<void> {
+  await r2.send(new PutObjectCommand({
+    Bucket: env.R2_BUCKET_NAME,
+    Key: key,
+    Body: buffer,
+    ContentType: contentType,
+  }));
+}
+
+// Presigned URL (temporary, time-limited access)
+async function getSignedAudioUrl(key: string): Promise<string> {
+  const command = new GetObjectCommand({
+    Bucket: env.R2_BUCKET_NAME,
+    Key: key,
+  });
+  return getSignedUrl(r2, command, { expiresIn: 3600 }); // 1 hour
+}</code></pre>
+
+        <h3>Storage Key Layout (Hierarchical, Org-Scoped)</h3>
+        <pre><code>R2 bucket: "resonance-app"
+├── voices/                      ← Reference audio (for cloning)
+│   ├── system/                  ← 20 built-in voices (shared by ALL orgs)
+│   │   ├── narrator.wav
+│   │   ├── customer_service.wav
+│   │   ├── podcast_host.wav
+│   │   └── ... (20 total)
+│   └── orgs/                    ← Custom voices (org-private)
+│       ├── org_xyz/
+│       │   └── voice_abc.wav    ← Upload by org_xyz
+│       └── org_def/
+│           └── voice_ghi.wav    ← Upload by org_def
+└── generations/                 ← Generated output audio
+    └── orgs/                    ← All org-scoped
+        ├── org_xyz/
+        │   ├── gen_abc.wav      ← Generated by org_xyz
+        │   └── gen_def.wav
+        └── org_def/
+            └── gen_ghi.wav
+        </code></pre>
+
+        <div class="question">
+            <strong>Interview Question: Why did you need presigned URLs?</strong>
+            <div class="answer">
+                <p><strong>The problem:</strong> Cloudflare R2 (like AWS S3) stores objects privately by default. If we put a generated <code>.wav</code> in a private bucket and gave the browser a direct R2 URL, we'd need to either:</p>
+                <ol>
+                    <li><strong>Make the bucket public</strong> — then anyone could download anyone's audio by guessing keys. Terrible security.</li>
+                    <li><strong>Embed R2 credentials in the frontend</strong> — even worse, credentials in the browser are fully exposed.</li>
+                </ol>
+                <p><strong>The solution: presigned URLs.</strong> The server (which has credentials) generates a temporary, single-use URL that grants time-limited download access to one specific file:</p>
+                <pre><code>// 1. User requests /api/audio/gen_123 from the browser
+// 2. Server checks: is the user logged in? Which org?
+// 3. Server checks: does generation gen_123 belong to this org?
+// 4. Server generates a 1-hour presigned URL:
+const signedUrl = await getSignedAudioUrl("generations/orgs/org_xyz/gen_123");
+// 5. Server fetches the audio and streams it through (proxy)
+// 6. Browser gets the WAV bytes without ever seeing R2 credentials
+
+// Even better: the signed URL could be sent directly to the browser
+// for client-side downloads. But proxy is more secure (still checks auth).</code></pre>
+                <p><strong>Properties of presigned URLs:</strong></p>
+                <ul>
+                    <li><strong>Time-limited:</strong> Expires after 1 hour (configurable)</li>
+                    <li><strong>Scope-limited:</strong> Only works for the specific object/key, not the whole bucket</li>
+                    <li><strong>No credential exposure:</strong> Browser never sees R2 access key or secret</li>
+                    <li><strong>Revocable:</strong> If leaked, it self-destructs after the TTL expires</li>
+                </ul>
+                <p>This is the <strong>standard S3/R2 pattern</strong> for private object access. It balances security with performance — the browser downloads directly from the CDN edge rather than proxying through your server.</p>
+                <p><strong>Alternatives:</strong> (1) Proxy all audio through the server (secure but bandwidth-heavy), (2) Sign cookies for browser sessions (complex), (3) Use R2's S3-compatible auth tokens (works but exposes more attack surface).</p>
+                <div class="key-takeaway"><strong>💡 Key Insight:</strong> Presigned URLs scale because the browser downloads directly from R2's CDN edge — your Next.js server isn't in the download path at all (just generates the URL).</div>
+            </div>
+        </div>
+
+        <h3>Security Layers Summary</h3>
+        <table>
+            <tr><th>Layer</th><th>Threat</th><th>Mitigation</th></tr>
+            <tr><td><strong>Auth</strong></td><td>Unauthenticated access</td><td>Clerk session tokens required on every API call</td></tr>
+            <tr><td><strong>Org</strong></td><td>Cross-org data access</td><td><code>orgProcedure</code> requires <code>orgId</code>; all queries filter by it</td></tr>
+            <tr><td><strong>Billing</strong></td><td>Free users using paid features</td><td>Polar subscription check on every generation/voice upload</td></tr>
+            <tr><td><strong>DB</strong></td><td>Query injection</td><td>Prisma parameterized queries; <code>orgId</code> in every WHERE clause</td></tr>
+            <tr><td><strong>R2 Keys</strong></td><td>Key enumeration</td><td>Keys are cuid() — unguessable; org prefixes prevent enumeration</td></tr>
+            <tr><td><strong>Audio Access</strong></td><td>Unauthorized download</td><td>All audio served via signed URLs through auth-checked proxy</td></tr>
+            <tr><td><strong>tRPC</strong></td><td>Input injection</td><td>Zod schemas validate every mutation/query input</td></tr>
+            <tr><td><strong>Secrets</strong></td><td>Credential leakage</td><td>All secrets in <code>.env</code> (gitignored), never in code or git</td></tr>
+        </table>
+    </div>
+
+    <div class="section" id="components">
+        <h2><span class="section-number">6</span>Key Components Explained</h2>
+
+        <h3>The tRPC Router: Type-Safe Backend</h3>
+        <p><span class="tag-backend">src/trpc/</span> — tRPC replaces traditional REST APIs with type-safe procedure calls.</p>
+        <pre><code>// Root router combines all feature routers
+// src/trpc/routers/_app.ts
+export const appRouter = createTRPCRouter({
+  voices: voicesRouter,
+  generations: generationsRouter,
+  billing: billingRouter,
+});
+
+// Usage on the frontend (fully typed!):
+const data = await trpc.generations.create.mutateAsync({
+  text: "Hello",     // ✅ validated by Zod
+  voiceId: "voice1", // ✅ string required
+  // temperature: "high" → ❌ TypeScript error!
+});</code></pre>
+
+        <h3>The Chatterbox GPU Service</h3>
+        <p><span class="tag-ai">chatterbox_tts.py</span> — A standalone Python service deployed on Modal:</p>
+        <ul>
+            <li><strong>Framework:</strong> Modal + FastAPI</li>
+            <li><strong>Hardware:</strong> A10G GPU (4GB VRAM), auto-provisioned</li>
+            <li><strong>Scaling:</strong> <code>scaledown_window=60*5</code> — shuts down after 5 min idle</li>
+            <li><strong>Concurrency:</strong> <code>@modal.concurrent(max_inputs=10)</code> — 10 concurrent generations per warm instance</li>
+            <li><strong>Model:</strong> <code>ChatterboxTurboTTS.from_pretrained(device="cuda")</code> — loads once per warm instance</li>
+            <li><strong>Storage:</strong> R2 mounted read-only at <code>/r2</code> — voice reference files are accessible to the model</li>
+            <li><strong>Auth:</strong> API key via <code>x-api-key</code> header, verified against <code>CHATTERBOX_API_KEY</code> env var</li>
+            <li><strong>Endpoint:</strong> POST <code>/generate</code> — receives JSON with prompt, voice_key, and parameters; returns WAV audio via streaming</li>
+        </ul>
+
+        <h3>The Frontend (Next.js App Router)</h3>
+        <p><span class="tag-frontend">src/app/</span> — Uses Next.js 16's App Router with React Server Components:</p>
+        <pre><code>// Route groups for auth vs dashboard
+// src/app/(auth)/layout.tsx
+// src/app/(dashboard)/layout.tsx
+
+// The main layout wraps everything
+// src/app/layout.tsx
+<ClerkProvider>
+  <TRPCReactProvider>    // Makes tRPC available everywhere
+    <NuqsAdapter>       // Type-safe URL state management
+      {children}
+    </NuqsAdapter>
+  </TRPCReactProvider>
+</ClerkProvider></code></pre>
+
+        <h3>WaveSurfer Integration: Interactive Playback</h3>
+        <p><span class="tag-frontend">src/features/text-to-speech/hooks/use-wavesurfer.ts</span></p>
+        <ul>
+            <li>Loads audio from the secure <code>/api/audio/{id}</code> proxy endpoint</li>
+            <li>Renders an interactive waveform (visual representation of audio amplitude over time)</li>
+            <li>Provides play/pause, seek bar, playback rate controls</li>
+            <li>Color-coded waveform (progress in blue, remaining in gray)</li>
+            <li>Shows audio duration with formatted time display</li>
+        </ul>
+
+        <h3>The Dashboard Layout</h3>
+        <p><span class="tag-frontend">src/app/(dashboard)/layout.tsx</span> — The main app shell:</p>
+        <ul>
+            <li><strong>DashboardSidebar:</strong> Navigation between TTS, Voices, Settings</li>
+            <li><strong>DashboardHeader:</strong> Org switcher, user profile, notifications</li>
+            <li><strong>Quick Actions:</strong> Generate, Upload Voice, View History</li>
+        </ul>
+    </div>
+
+    <div class="section" id="interview">
+        <h2><span class="section-number">7</span>Interview Q&amp;A (Prepared Answers)</h2>
+
+        <div class="question">
+            <strong>Q1: Why did you choose Modal instead of running the model on AWS?</strong>
+            <div class="answer">
+                <p><strong>Answer:</strong> Modal provides <em>serverless GPU compute</em>. You write Python code and Modal handles GPU provisioning, scaling, and teardown. Key benefits:</p>
+                <ul>
+                    <li><strong>No idle cost:</strong> Instances scale to zero after 5 minutes idle and spin up on the next request</li>
+                    <li><strong>No DevOps:</strong> No SSH, no Docker management, no instance monitoring — just deploy code</li>
+                    <li><strong>Pay-per-use:</strong> You pay per second of GPU time (~$0.001/sec for A10G), not per hour</li>
+                    <li><strong>Concurrency:</strong> Each warm instance handles 10 concurrent generations via <code>@modal.concurrent</code></li>
+                </ul>
+                <p><strong>The trade-off:</strong> Less control. With AWS EC2, you'd manage a <code>g4dn.xlarge</code> (~$0.50/hr) 24/7 or build custom autoscaling. You'd also handle SSH, updates, and uptime. Modal trades control for simplicity.</p>
+        <div class="key-takeaway"><strong>💡 Key Insight:</strong> Modal is perfect for intermittent GPU workloads — you pay $0.0007/sec only while generating, vs $0.50/hr for an always-on EC2 instance.</div>
+                <p><strong>Alternatives:</strong> RunPod (cheaper GPUs, more manual), Replicate (pre-built models), AWS Lambda GPU (limited), or bare EC2 for maximum control.</p>
+            </div>
+        </div>
+
+        <div class="question">
+            <strong>Q2: What exactly happens when a user submits text?</strong>
+            <div class="answer">
+                See the full <a href="#request-flow">Request Flow</a> section above. In 30 seconds:
+                <pre><code>1. Form validates (TanStack Form + Zod)
+2. Auth middleware checks Clerk (userId, orgId)
+3. Billing check against Polar (active subscription?)
+4. Voice lookup in PostgreSQL (SYSTEM or own CUSTOM)
+5. HTTP POST to Modal GPU → raw WAV bytes
+6. Create DB record → Upload to R2 → Link record
+7. Fire-and-forget usage event to Polar
+8. Return { id } → Browser redirects → WaveSurfer playback</code></pre>
+            </div>
+        </div>
+
+        <div class="question">
+            <strong>Q3: Why FastAPI for the GPU service (not Flask, Node.js)?</strong>
+            <div class="answer">
+                <p><strong>Answer:</strong> FastAPI is the modern standard for Python web services because:</p>
+                <ul>
+                    <li><strong>Pydantic v2 validation:</strong> The <code>TTSRequest</code> model (prompt, voice_key, temperature, etc.) is validated at the framework level — malformed requests never reach the GPU.</li>
+                    <li><strong>Async support:</strong> FastAPI runs on Starlette/uvicorn, which natively supports async. This means GPU-bound work doesn't block the event loop.</li>
+                    <li><strong>Auto-generated docs:</strong> <code>/docs</code> and <code>/redoc</code> endpoints are auto-generated — great for testing and debugging.</li>
+                    <li><strong>Type-safe:</strong> Python type hints on request/response models give IDE autocomplete and error detection.</li>
+                    <li><strong>Chatterbox is Python:</strong> The model library is PyTorch-based Python. FastAPI is the path of least resistance — no language bridging required.</li>
+                </ul>
+                <p><strong>Alternatives:</strong> Flask (synchronous, no built-in validation, needs Flask-RESTful for structured APIs), Django REST Framework (heavier, ORM-coupled), or just raw <code>uvicorn</code> with manual routing. FastAPI is the sweet spot for Python ML services.</p>
+            </div>
+        </div>
+
+        <div class="question">
+            <strong>Q4: What is tRPC doing here and why not just use REST?</strong>
+            <div class="answer">
+                <p><strong>Answer:</strong> tRPC eliminates the need for a separate API contract layer. Here's the difference:</p>
+                <pre><code>// REST approach (traditional):
+// 1. Write API endpoint in Next.js API routes
+app.post("/api/generate", async (req, res) => { ... });
+
+// 2. Write OpenAPI spec manually or generate it
+// 3. On frontend, make raw HTTP calls:
+const res = await fetch("/api/generate", { method: "POST", body: JSON.stringify(data) });
+const json = await res.json(); // No type safety!
+
+// 4. Optionally generate types from OpenAPI — extra step, easy to drift
+
+// tRPC approach (current):
+// 1. Define procedure ONCE on server:
+const generationsRouter = createTRPCRouter({
+  create: orgProcedure.input(z.object({...})).mutation(async ({ input, ctx }) => {
+    // ... typed input, typed context
+    return { id: "gen_123" };
+  })
+});
+
+// 2. Call directly from frontend (fully typed!):
+const { id } = await trpc.generations.create.mutateAsync({ text: "...", voiceId: "..." });
+// TypeScript knows: input shape, return type, error shape — all inferred automatically</code></pre>
+                <p><strong>The key benefit:</strong> If you change the input schema on the server (e.g., add a required field), the frontend immediately gets a <strong>compile-time error</strong>. With REST, you'd only find out at runtime.</p>
+                <p><strong>Alternatives:</strong> REST with OpenAPI code generation (extra build step, can drift), GraphQL (single endpoint, but adds complexity for simple CRUD), or raw HTTP (no types, manual validation). tRPC wins for TypeScript-only apps with tight frontend/backend teams.</p>
+                <div class="key-takeaway"><strong>💡 Key Insight:</strong> tRPC's type inference happens at compile time — if your server returns <code>{ id: string }</code>, your frontend gets <code>const { id }: { id: string }</code> automatically. No OpenAPI syncing needed.</div>
+            </div>
+        </div>
+
+        <div class="question">
+            <strong>Q5: Why PostgreSQL and not MongoDB/Redis/DuckDB?</strong>
+            <div class="answer">
+                <p><strong>Answer:</strong> PostgreSQL for five reasons specific to this project:</p>
+                <ul>
+                    <li><strong>Relational data:</strong> <code>Generation</code> has a foreign key to <code>Voice</code>. If you use MongoDB, you'd either denormalize (duplicating voice data) or do client-side joins (inefficient). PostgreSQL handles this natively.</li>
+                    <li><strong>Multi-tenant indexing:</strong> Every query filters by <code>orgId</code>. PostgreSQL's <code>@@index([orgId])</code> annotations ensure fast tenant isolation. The same pattern is awkward in NoSQL.</li>
+                    <li><strong>ACID transactions:</strong> Billing and meter events must be consistent. PostgreSQL's transaction support ensures a generation record + usage event either both succeed or both fail. Redis and MongoDB have weaker guarantees here.</li>
+                    <li><strong>Prisma ecosystem:</strong> Prisma (the ORM used) has its most mature, type-safe, and documented integration with PostgreSQL. The query builder is cleanest with Postgres as the target.</li>
+                    <li><strong>Cloud pricing:</strong> PostgreSQL is offered by every cloud provider (Supabase, Neon, AWS RDS, Google Cloud SQL). It's the lowest-friction hosted option.</li>
+                </ul>
+                <p><strong>Alternatives:</strong> PlanetScale (MySQL-based, serverless, but no foreign key constraints), MongoDB (if you anticipated heavily semi-structured data), or even Supabase (which bundles Postgres with auth for a simpler setup). For this use case, Postgres is the right call.</p>
+            </div>
+        </div>
+
+        <div class="question">
+            <strong>Q6: Why Prisma instead of raw SQL/DRIZZLE/Knex?</strong>
+            <div class="answer">
+                <p><strong>Answer:</strong> Prisma provides schema-first development with auto-generated TypeScript types:</p>
+                <pre><code>// 1. Define schema once:
+// prisma/schema.prisma
+model Generation {
+  id              String   @id @default(cuid())
+  orgId           String
+  voice           Voice?   @relation(fields: [voiceId], references: [id])
+  voiceId         String?
+  text            String
+  temperature     Float
+  topP            Float
+  topK            Int
+  repetitionPenalty Float
+  createdAt       DateTime @default(now())
+  @@index([orgId])
+}
+
+// 2. Query with full type safety:
+const gen = await prisma.generation.create({
+  data: {
+    orgId: ctx.orgId,       // ✅ string
+    text: input.text,       // ✅ string
+    // typo: input.txt → ❌ TypeScript error
+  }
+});
+// Returns: { id: string, text: string, ... } — fully typed
+
+// 3. Migrations tracked in version control:
+// npx prisma migrate dev --name add_repetition_penalty</code></pre>
+                <p><strong>Alternatives:</strong> (1) <strong>Drizzle ORM</strong> — lighter bundle, SQL-like syntax, but less schema-first DX. (2) <strong>Knex</strong> — just a query builder, no models or types. (3) <strong>Raw pg</strong> — fastest but no type safety. For TypeScript-first teams shipping fast, Prisma is the most productive choice.</p>
+            </div>
+        </div>
+
+        <div class="question">
+            <strong>Q7: What is multi-tenancy and how did you implement it?</strong>
+            <div class="answer">
+                <p><strong>Multi-tenancy</strong> means multiple organizations share one application instance, but their data is strictly isolated. In Resonance, data isolation is enforced at <strong>six layers</strong> — defense in depth:</p>
+                <pre><code>// 1. AUTH LAYER (src/trpc/init.ts) — orgProcedure middleware:
+const { userId, orgId } = await auth();     // Clerk injects orgId
+if (!orgId) throw new TRPCError({ code: "FORBIDDEN" });  // Required
+
+// 2. DATABASE LAYER (prisma/schema.prisma):
+model Generation {
+  orgId String                            // Column on every table
+  @@index([orgId])                         // Index for fast tenant queries
+}
+
+// 3. QUERY LAYER — Every query filters by orgId:
+prisma.generation.findMany({ where: { orgId: ctx.orgId } })
+prisma.generation.create({ data: { orgId: ctx.orgId } })
+prisma.generation.update({ where: { id, orgId: ctx.orgId } })  // Ownership check on updates
+
+// 4. STORAGE LAYER — R2 keys are org-scoped:
+generations/orgs/{orgId}/{generationId}.wav
+voices/orgs/{orgId}/{voiceId}.wav
+
+// 5. VOICE ACCESS — SYSTEM voices are global, CUSTOM are org-only:
+prisma.voice.findUnique({
+  where: {
+    id: voiceId,
+    OR: [
+      { variant: "SYSTEM" },                    // Shared by everyone
+      { variant: "CUSTOM", orgId: ctx.orgId }   // Only this org
+    ]
+  }
+})
+
+// 6. AUDIO PLAYBACK — Signed URLs with ownership check:
+// src/app/api/audio/[id]/route.ts
+const gen = await prisma.generation.findUnique({ where: { id, orgId } });
+if (!gen) return 404;  // Can't access other org's audio</code></pre>
+                <p><strong>Why six layers?</strong> Each is an independent check. A bug in the query layer (missing <code>orgId</code> filter) is caught by the storage key prefix. A bug in the R2 path construction is caught by the DB ownership check. This is <em>defense in depth</em> — not single-point-of-failure security.</p>
+            </div>
+        </div>
+
+        <div class="question">
+            <strong>Q8: Why presigned URLs instead of just serving from the server?</strong>
+            <div class="answer">
+                <p>Already answered above in the <a href="#storage">Storage &amp; Security</a> section. In short: private R2 bucket + temporary access URL = secure and efficient. The alternative (proxying all audio through the Next.js server) doubles bandwidth costs and adds latency.</p>
+            </div>
+        </div>
+
+        <div class="question">
+            <strong>Q9: What happens if the GPU request fails?</strong>
+            <div class="answer">
+                <p>Multiple failure paths are handled:</p>
+                <pre><code>// 1. GPU returns error (5xx or timeout):
+const { data, error } = await chatterbox.POST("/generate", { ... });
+if (error) {
+  throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Failed to generate audio" });
+}
+// → Frontend catches, shows toast: "Failed to generate audio"
+
+// 2. Upload to R2 fails:
+try {
+  const gen = await prisma.generation.create({ data: { ... } });  // DB row created
+  await uploadAudio({ buffer, key: r2Key });                       // Upload fails
+} catch {
+  if (generationId) {
+    await prisma.generation.delete({ where: { id: generationId } }).catch(() => {});
+  }  // Cleanup orphan DB record
+  throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Failed to store generated audio" });
+}
+
+// 3. Polar billing event fails (fire-and-forget):
+polar.events.ingest({ events: [...] })
+  .catch(() => { /* silently ignored — user still gets audio */ });
+
+// 4. Unhandled errors (Sentry):
+// orgProcedure wraps everything with Sentry.trpcMiddleware({
+//   attachRpcInput: true  // Logs full request input for debugging
+// });</code></pre>
+                <p><strong>Key principle:</strong> The user either gets their audio successfully, or they get a clear error. There are no half-finished states (no generation record without audio, no audio without a record). The create-then-upload pattern with rollback ensures this.</p>
+            </div>
+        </div>
+
+        <div class="question">
+            <strong>Q10: What is temperature in TTS generation?</strong>
+            <div class="answer">
+                <p>Based on my knowledge of ML generation:</p>
+                <p><strong>Temperature</strong> controls the randomness of the model's output by scaling the logits/probability distribution before sampling. In the context of voice generation, it affects:</p>
+                <ul>
+                    <li><strong>Low (0.0 - 0.5):</strong> Near-deterministic. Each generation sounds very similar. Can sound robotic or monotone. Good for when you need consistent, reproducible output.</li>
+                    <li><strong>Medium (0.6 - 1.0):</strong> Balanced variety. Natural inflection, some variation between generations. This is the sweet spot for most use cases.</li>
+                    <li><strong>High (1.2 - 2.0):</strong> High variability. Each generation can sound quite different. Can produce more expressive speech but risks instability — artifacts, inconsistent tone, or the model going off-distribution.</li>
+                </ul>
+                <p>In Chatterbox specifically (a diffusion-based TTS model), temperature likely modifies the sampling from the model's output probability distribution at each generative step. The default of 0.8 in the code is a reasonable starting point — expressive but stable.</p>
+                <p><strong>Honest caveat:</strong> I know the general ML concept. For Chatterbox-specific behavior (e.g., how temperature interacts with the flow-matching loss or the duration predictor), I'd need to consult their documentation or experiment. The key interview skill is saying "I know the general principle, but I'd verify with tests" rather than claiming deep domain expertise.</p>
+                <div class="warning-box"><strong>⚠️ Interview Tip:</strong> When you don't know something, say so honestly. Interviewers respect "I understand the general concept of X, but I haven't worked with Chatterbox-specific behavior yet. Here's what I'd need to verify..." far more than guessing.</div>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="question">
+            <strong>Q11: What does top-k do?</strong>
+            <div class="answer">
+                <p><strong>Answer:</strong> Top-k sampling restricts the model's choices at each generation step to the k most likely options, then samples from that restricted set.</p>
+                <pre><code>// How it works conceptually:
+// At each step, the model produces logits for all possible next tokens/phonemes
+// Without top-k: sample from full distribution (1000s of options)
+// With top-k=1000: filter to top 1000 most likely, renormalize, sample
+
+// Low k (10-50): Very focused. Output stays close to the expected path.
+//   - Pro: Reproducible, consistent, controllable
+//   - Con: Can sound robotic, less natural variation
+
+// High k (500-1000): More exploration. Wider range of outputs.
+//   - Pro: More natural-sounding, creative
+//   - Con: Less predictable, may diverge
+
+// k = 1: Greedy decoding. Always pick the single most likely option.
+//   - Most deterministic, least natural</code></pre>
+                <p><strong>Difference from temperature:</strong> Temperature changes the shape of the probability distribution (sharpening or flattening it). Top-k changes the <em>set</em> of candidates (filtering, not scaling). They're orthogonal and often used together — top-k filters the candidates, temperature scales their probabilities.</p>
+                <p>The code defaults to <code>topK: 1000</code> and <code>temperature: 0.8</code> — a combination that provides good quality with reasonable determinism. For voice, you typically want some variation for naturalness but not so much that the voice becomes inconsistent.</p>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="question">
+            <strong>Q12: Where does the audio actually live?</strong>
+            <div class="answer">
+                <p>All audio files live in <strong>Cloudflare R2</strong>, a private object storage bucket named <code>resonance-app</code>. There are two types of audio:</p>
+                <pre><code>// 1. Reference voice clips (for cloning)
+voices/system/narrator.wav           ← 20 built-in voices (shared, read-only R2 mount)
+voices/orgs/org_xyz/voice_abc.wav    ← Custom voices uploaded by orgs
+
+// 2. Generated audio output
+generations/orgs/org_xyz/gen_abc.wav ← TTS output (public-read via signed URL)</code></pre>
+                <p><strong>Access control:</strong> The R2 bucket is private. Audio files are never directly accessible via a URL — they're only served through the <code>/api/audio/[id]</code> proxy route, which verifies org ownership and generates a time-limited presigned URL.</p>
+                <p><strong>Reference audio:</strong> System voices are loaded into the Modal GPU service via a read-only R2 mount at <code>/r2</code>. The <code>voice_key</code> in generation requests is actually the R2 path (e.g., <code>voices/system/narrator.wav</code>).</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="section" id="alternatives">
+        <h2><span class="section-number">8</span>Tooling Alternatives &amp; Trade-offs</h2>
+        <p>If you were building this from scratch, here's the decision matrix for every major choice:</p>
+
+        <h3>Frontend Framework</h3>
+        <table>
+            <tr><th>Option</th><th>Pros</th><th>Cons</th><th>Best For</th></tr>
+            <tr><td><strong>Next.js 16 (Used)</strong></td><td>Batteries included, App Router, API routes, image optimization, Vercel integration</td><td>React-only, larger bundle than Svelte</td><td>Rapid MVP to production</td></tr>
+            <tr><td>SvelteKit</td><td>Faster runtime, smaller bundle, simpler mental model</td><td>Smaller ecosystem, fewer enterprise users</td><td>Performance-first, small teams</td></tr>
+            <tr><td>React + Vite</td><td>Minimal, fast HMR, any backend</td><td>No built-in SSR, auth/API wiring needed</td><td>Custom backends, microservice architecture</td></tr>
+            <tr><td>Nuxt.js</td><td>Vue ecosystem, excellent DX, file-based routing</td><td>Vue learning curve, larger than Svelte</td><td>Vue-first teams, SEO requirements</td></tr>
+            <tr><td>Remix</td><td>Web standards-focused, great data loading</td><td>Smaller ecosystem than Next.js</td><td>Principles-first engineering teams</td></tr>
+        </table>
+
+        <h3>API Layer</h3>
+        <table>
+            <tr><th>Option</th><th>Pros</th><th>Cons</th><th>Best For</th></tr>
+            <tr><td><strong>tRPC (Used)</strong></td><td>End-to-end type safety, no contract drift, zero boilerplate, full inference</td><td>TS-only, same repo, no REST compatibility</td><td>TypeScript monorepo teams</td></tr>
+            <tr><td>REST + OpenAPI</td><td>Universal protocol, any client, HTTP caching, mature tooling</td><td>Manual type sync, contract drift, boilerplate</td><td>Public APIs, multiple client types</td></tr>
+            <tr><td>GraphQL</td><td>Exact data fetching, single endpoint, introspection</td><td>N+1 issues, learning curve, query complexity</td><td>Complex data relationships, mobile clients</td></tr>
+        </table>
+    </div>
+
+        <h3>Database & ORM</h3>
+        <table>
+            <tr><th>Option</th><th>Pros</th><th>Cons</th><th>Best For</th></tr>
+            <tr><td><strong>PostgreSQL + Prisma (Used)</strong></td><td>ACID, relational integrity, best DX with Prisma, JSONB, mature</td><td>More ops than serverless, heavier than SQLite</td><td>Most web applications</td></tr>
+            <tr><td>PlanetScale + Prisma</td><td>Serverless, branching, zero-downtime deploys</td><td>No foreign keys, MySQL dialect quirks</td><td>Startups needing zero-ops DB</td></tr>
+            <tr><td>Supabase</td><td>Auth + DB + Realtime + Storage bundled</td><td>Vendor lock-in, opinionated</td><td>Indie hackers, Firebase users</td></tr>
+            <tr><td>SQLite + Drizzle</td><td>Bundled, no server, fastest local dev</td><td>No concurrency, not for production</td><td>Local dev, edge runtimes</td></tr>
+            <tr><td>MongoDB + Mongoose</td><td>Flexible schema, horizontal scaling</td><td>No joins, eventual consistency</td><td>Semi-structured data</td></tr>
+        </table>
+
+        <h3>GPU Compute</h3>
+        <table>
+            <tr><th>Option</th><th>Pros</th><th>Cons</th><th>Best For</th></tr>
+            <tr><td><strong>Modal (Used)</strong></td><td>Serverless GPU, zero config, auto-scaling, Python-native</td><td>Less control, cold starts, vendor lock-in</td><td>Occasional GPU workloads</td></tr>
+            <tr><td>AWS EC2</td><td>Full control, any CUDA/driver, AWS integration</td><td>Always-on cost, manual scaling, SSH management</td><td>Heavy, constant GPU usage</td></tr>
+            <tr><td>RunPod</td><td>Cheaper GPUs, more instance types, dedicated servers</td><td>Manual scaling, server management</td><td>Cost-sensitive, custom infra</td></tr>
+            <tr><td>Replicate</td><td>Predictable pricing, pre-built models, webhooks</td><td>Limited to supported models, less customization</td><td>Rapid prototyping</td></tr>
+        </table>
+
+        <h3>Auth & Billing</h3>
+        <table>
+            <tr><th>Option</th><th>Pros</th><th>Cons</th><th>Best For</th></tr>
+            <tr><td><strong>Clerk + Polar (Used)</strong></td><td>Built-in orgs, SSO, MFA, usage metering, modern APIs</td><td>Two vendors to manage, newer ecosystem</td><td>TypeScript-first SaaS startups</td></tr>
+            <tr><td>Auth.js + Stripe</td><td>Battle-tested, open-source, extensive docs</td><td>More boilerplate, DIY org model</td><td>Teams needing maximum flexibility</td></tr>
+            <tr><td>Supabase Auth + Stripe</td><td>Integrated auth + DB, auto-JWT, easy setup</td><td>Less UI, fewer enterprise providers</td><td>Supabase ecosystem users</td></tr>
+            <tr><td>Firebase Auth + RevenueCat</td><td>Mobile-first, Google ecosystem</td><td>Vendor lock-in, Google-centric</td><td>Mobile apps, Firebase users</td></tr>
+        </table>
+
+        <div class="section" id="deployment">
+            <h2><span class="section-number">9</span>Deployment Guide</h2>
+
+            <h3>If You Want to Deploy Your Own Copy:</h3>
+            <p><strong>Step 1: Create accounts</strong></p>
+            <ul>
+                <li><strong>Vercel</strong> (or your preferred Next.js host) for the frontend</li>
+                <li><strong>Modal.com</strong> for GPU inference</li>
+                <li><strong>Cloudflare</strong> for R2 storage</li>
+                <li><strong>Supabase/PlanetScale/Neon</strong> for PostgreSQL</li>
+                <li><strong>Clerk</strong> for authentication</li>
+                <li><strong>Polar</strong> for billing</li>
+            </ul>
+
+            <p><strong>Step 2: Environment Variables</strong></p>
+            <pre><code>cp .env.example .env.local
+
+# Fill in:
+DATABASE_URL=postgresql://...
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk...
+CLERK_SECRET_KEY=sk...
+POLAR_ACCESS_TOKEN=...
+POLAR_PRODUCT_ID=...
+R2_ACCOUNT_ID=...
+R2_ACCESS_KEY_ID=...
+R2_SECRET_ACCESS_KEY=...
+R2_BUCKET_NAME=...
+CHATTERBOX_API_URL=https://your-modal-app.modal.run
+CHATTERBOX_API_KEY=your-secret-key</code></pre>
+
+            <p><strong>Step 3: Deploy Chatterbox</strong></p>
+            <pre><code># Install Modal CLI
+pip install modal
+modal login
+
+# Deploy
+modal deploy chatterbox_tts.py</code></pre>
+
+            <p><strong>Step 4: Seed system voices</strong></p>
+            <pre><code>npx prisma migrate deploy
+npx tsx scripts/seed-system-voices.ts</code></pre>
+
+            <p><strong>Step 5: Deploy Next.js</strong></p>
+            <pre><code>npm run build
+npm start
+# Or: vercel --prod</code></pre>
+        </div>
+
+        <div class="section" id="cheatsheet">
+            <h2><span class="section-number">🔟</span> Quick Reference Cheat Sheet</h2>
+            <table class="cheat-sheet">
+                <tr><th>Concept</th><th>One-Line Answer</th></tr>
+                <tr><td>Why Modal?</td><td>Serverless GPU — spin up A10G on demand, scale to zero, pay per second of GPU time</td></tr>
+                <tr><td>What happens on submit?</td><td>Auth → Billing check → Voice lookup → GPU call → R2 upload → DB record → redirect to playback</td></tr>
+                <tr><td>Why FastAPI?</td><td>Python web framework with async + Pydantic validation, natural for wrapping ML models</td></tr>
+                <tr><td>What is tRPC?</td><td>Type-safe RPC — frontend calls backend functions with full TS inference, no REST boilerplate</td></tr>
+                <tr><td>Why PostgreSQL?</td><td>Relational data (FKs), ACID for billing, Prisma's strongest support, tenant isolation via orgId</td></tr>
+                <tr><td>Why Prisma?</td><td>Schema-first ORM, auto-generated types from schema.prisma, migration system, readable queries</td></tr>
+                <tr><td>Multi-tenancy?</td><td>Every query/DB row/R2 path is scoped by <code>orgId</code>, enforced at 6 layers (defense in depth)</td></tr>
+                <tr><td>Presigned URLs?</td><td>Private R2 bucket + temporary download link, no credential exposure to browsers</td></tr>
+                <tr><td>GPU fails?</td><td>Error caught, orphan DB record deleted, toast shown, Sentry logs it</td></tr>
+                <tr><td>Upload fails?</td><td>Catch block deletes orphan DB record — no generation without audio</td></tr>
+                <tr><td>Temperature?</td><td>Controls randomness — low=monotone, medium=best, high=expressive but unstable (0-2 range)</td></tr>
+                <tr><td>Top-k?</td><td>Restricts sampling to k most probable options — lower k = focused, higher k = more variety</td></tr>
+                <tr><td>Audio location?</td><td>Cloudflare R2, paths: <code>voices/{system,orgs/{id}}/...</code> and <code>generations/orgs/{id}/...</code></td></tr>
+                <tr><td>R2 mounting?</td><td>Modal reads reference voices from a read-only R2 mount at <code>/r2</code></td></tr>
+                <tr><td>Billing meter?</td><td>Fire-and-forget Polar usage events — metering errors never break generation</td></tr>
+                <tr><td>Error tracking?</td><td>Sentry middleware on every tRPC procedure, client errors, and edge runtime</td></tr>
+            </table>
+        </div>
+
+        <div class="section" style="background: linear-gradient(135deg, #f0f9ff 0%, #ecfeff 50%, #fff7ed 100%); text-align: center;">
+            <h2 style="color: var(--dark-navy); border: none; margin-bottom: 20px;">🎯 Ready to Ship Your Version?</h2>
+            <h3 style="color: var(--accent-primary); margin-bottom: 20px;">🚀 Happy Coding! 🚀</h3>
+            <p style="font-size: 1.1em; margin-bottom: 20px;">This documentation covers the complete Resonance project architecture — from the Next.js frontend through the tRPC API layer, PostgreSQL database, Modal GPU service, Cloudflare R2 storage, and Polar billing integration.</p>
+            <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin-top: 25px;">
+                <a href="https://github.com/harmeetsinghjsr/resonance" style="background: var(--dark-navy); color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600; transition: transform 0.2s;">📄 GitHub Repo</a>
+                <a href="https://sarcastic-resonance.vercel.app" style="background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary)); color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600; transition: transform 0.2s;">🚀 Live Demo</a>
+            </div>
+            <p style="margin-top: 25px; font-size: 0.9em; color: var(--text-secondary);">Generated as a learning reference — October 2026</p>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
