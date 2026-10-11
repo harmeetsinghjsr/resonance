@@ -4,7 +4,7 @@
 
 Resonance lets organizations generate natural-sounding speech from text using cloned or built-in voices, self-hosting the underlying voice model instead of relying on paid third-party APIs like ElevenLabs.
 
-**[Live Demo](https://resonance-five-delta.vercel.app/)**
+**[Live Demo](https://sarcastic-resonance.vercel.app/)**
 
 ---
 
