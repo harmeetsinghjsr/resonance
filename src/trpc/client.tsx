@@ -9,6 +9,8 @@ import { useState } from 'react';
 import { makeQueryClient } from './query-client';
 import type { AppRouter } from './routers/_app';
 import superjson from 'superjson';
+
+const transformer = superjson;
 export const { TRPCProvider, useTRPC } = createTRPCContext<AppRouter>();
  
 let browserQueryClient: QueryClient;
@@ -26,12 +28,12 @@ function getQueryClient() {
 }
  
 function getUrl() {
-  const base = (() => {
-    if (typeof window !== 'undefined') return '';
-    if (process.env.APP_URL) return `https://${process.env.APP_URL}`;
-    return 'http://localhost:3000';
-  })();
-  return `${base}/api/trpc`;
+  // Always use a relative URL. The tRPC client sends requests back to the same
+  // origin that served the page, so the correct host/protocol is picked up
+  // automatically in both SSR and the browser. Hard-coding an absolute URL here
+  // breaks under some Vercel edge configurations (and is the root cause of the
+  // "Unsupported GET-request to mutation procedure" error on generations.create).
+  return `/api/trpc`;
 }
  
 export function TRPCReactProvider(
@@ -49,8 +51,18 @@ export function TRPCReactProvider(
     createTRPCClient<AppRouter>({
       links: [
         httpBatchLink({
-          transformer: superjson,
-          url: getUrl(),
+          transformer,
+          url: "/api/trpc",
+          // Send every RPC as a POST so mutations never get routed as GET
+          // (tRPC throws "Unsupported GET-request to mutation procedure" otherwise,
+          //  which was surfacing as "Failed to generate audio" in production).
+          methodOverride: "POST",
+          fetch(url, opts) {
+            return fetch(url, {
+              ...opts,
+              method: "POST",
+            });
+          },
         }),
       ],
     }),
