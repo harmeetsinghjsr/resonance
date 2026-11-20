@@ -24,8 +24,11 @@ One-time setup
       R2_ACCOUNT_ID=... R2_ACCESS_KEY_ID=... \
       R2_SECRET_ACCESS_KEY=... R2_BUCKET_NAME=resonance
 
+    # Generate a long random key, e.g. `openssl rand -hex 32`. The service
+    # refuses to start without one. Use the same value as the app's
+    # CHATTERBOX_API_KEY.
     modal secret create chatterbox-api \
-      CHATTERBOX_API_KEY=super-secret-key
+      CHATTERBOX_API_KEY=<paste-a-long-random-key>
 
 Deploy
 ------
@@ -40,6 +43,7 @@ Chatterbox (~0.5B params). Switch to "L4" or "A10G" if you want faster
 generation, and lower `scaledown_window` to pay less idle time.
 """
 
+import hmac
 import inspect
 import io
 import os
@@ -73,9 +77,18 @@ hf_cache_volume = modal.Volume.from_name("chatterbox-hf-cache", create_if_missin
 app = modal.App(APP_NAME)
 
 
+# voices/system/<voiceId>  or  voices/orgs/<orgId>/<voiceId>
+VOICE_KEY_PATTERN = r"^voices/(system/[A-Za-z0-9_-]+|orgs/[A-Za-z0-9_-]+/[A-Za-z0-9_-]+)$"
+
+
 class TTSRequest(BaseModel):
     prompt: str = Field(min_length=1, max_length=5000)
-    voice_key: str = Field(min_length=1, max_length=300)
+    # Only the key shapes the app writes (see src/lib and the seed script), so a
+    # caller can't point this service at arbitrary objects in the bucket, e.g.
+    # generated audio under generations/.
+    voice_key: str = Field(
+        min_length=1, max_length=300, pattern=VOICE_KEY_PATTERN
+    )
     temperature: float = Field(default=0.8, ge=0.0, le=2.0)
     top_p: float = Field(default=0.95, ge=0.0, le=1.0)
     top_k: int = Field(default=1000, ge=1, le=10000)
@@ -162,11 +175,18 @@ def build_app(model, sr: int) -> FastAPI:
 
     api = FastAPI(title="Resonance Chatterbox TTS API")
     expected_key = os.environ.get("CHATTERBOX_API_KEY", "")
+    if not expected_key:
+        # Fail closed: never serve an unauthenticated GPU endpoint.
+        raise RuntimeError(
+            "CHATTERBOX_API_KEY is not set; refusing to start without an API key"
+        )
+    expected_key_bytes = expected_key.encode("utf-8")
     loudness_meter = _make_loudness_meter(model, sr)
 
     @api.post("/generate")
     def generate(req: TTSRequest, x_api_key: str = Header(default="")) -> Response:
-        if expected_key and x_api_key != expected_key:
+        # Constant-time comparison to avoid leaking the key via timing.
+        if not hmac.compare_digest(x_api_key.encode("utf-8"), expected_key_bytes):
             raise HTTPException(status_code=401, detail="Invalid API key")
 
         wav = _run_generate(model, req, _local_voice_file(req.voice_key))

@@ -16,7 +16,11 @@ import { fileURLToPath } from "node:url";
 const BASE_URL =
   process.env.CHATTERBOX_API_URL ??
   "https://ankurpathak795--chatterbox-tts-chatterbox-serve.modal.run";
-const API_KEY = process.env.CHATTERBOX_API_KEY ?? "super-secret-key";
+const API_KEY = process.env.CHATTERBOX_API_KEY;
+if (!API_KEY) {
+  console.error("CHATTERBOX_API_KEY is not set (see .env.example).");
+  process.exit(1);
+}
 
 const OUT_DIR = path.join(
   path.dirname(fileURLToPath(import.meta.url)),
