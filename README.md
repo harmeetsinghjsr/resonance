@@ -75,7 +75,31 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000).
 
-The Chatterbox TTS model runs as a separate Python/Modal service (`chatterbox_tts.py`) and must be deployed independently — see that file for the FastAPI + Modal setup.
+### System voice audio
+
+`seed-system-voices.ts` uploads one reference clip per voice from
+`scripts/system-voices/<Name>.wav` (gitignored) to your R2 bucket, and points each
+`Voice.r2ObjectKey` at it. If those objects are missing from the bucket, voice
+*previews* fail even though generation still works, because generation resolves
+`voice_key` inside the Chatterbox service's own storage.
+
+```bash
+# Confirm every SYSTEM voice has audio in your bucket
+npx tsx scripts/check-voice-keys.ts
+
+# Rebuild the clips by synthesizing one per voice from a running Chatterbox
+# endpoint, then re-run the seed to upload them
+node scripts/capture-system-voice-audio.mjs
+npx tsx scripts/seed-system-voices.ts
+```
+
+### Chatterbox TTS service
+
+The model runs as a separate Python/Modal service, deployed independently:
+`modal/chatterbox_app.py`. It serves `POST /generate` with the same contract the
+app calls (`x-api-key` header, `audio/wav` response), reading each `voice_key`
+from **your** R2 bucket, so voice audio and generation stay in one account. Deploy
+instructions and required secrets are in the file's docstring.
 
 ## Environment Variables
 
@@ -88,7 +112,9 @@ Key variables (validated via `@t3-oss/env-nextjs` in `src/lib/env.ts`):
 
 ## Status
 
-Core pipeline — text input → GPU inference → R2 storage → DB tracking → waveform playback — is fully functional end-to-end, including generation history. Voice cloning (uploading custom reference audio to create org-specific voices) and a dedicated voice browsing page are in progress.
+Core pipeline — text input → GPU inference → R2 storage → DB tracking → waveform playback — is fully functional end-to-end, including generation history, a voice browsing page, Polar usage-based billing, and voice cloning (record or upload a short reference clip to create an org-specific voice).
+
+Voice cloning uploads are limited to 4 MB (recordings stop at 40 seconds) because the audio is sent as the request body, and Vercel functions reject bodies over 4.5 MB.
 
 ## License
 

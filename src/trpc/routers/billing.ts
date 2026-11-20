@@ -8,7 +8,7 @@ export const billingRouter = createTRPCRouter({
     const result = await polar.checkouts.create({
       products: [env.POLAR_PRODUCT_ID],
       externalCustomerId: ctx.orgId,
-      successUrl: process.env.APP_URL,
+      successUrl: env.APP_URL,
     });
 
     if (!result.url) {

@@ -109,7 +109,13 @@ export const generationsRouter = createTRPCRouter({
         });
       }
 
-      const { data, error } = await chatterbox.POST("/generate", {
+      Sentry.logger.info("Generation started", {
+        orgId: ctx.orgId,
+        voiceId: input.voiceId,
+        textLength: input.text.length,
+      });
+
+      const { data, error, response } = await chatterbox.POST("/generate", {
         body: {
           prompt: input.text,
           voice_key: voice.r2ObjectKey,
@@ -122,13 +128,16 @@ export const generationsRouter = createTRPCRouter({
         parseAs: "arrayBuffer",
       });
 
-      Sentry.logger.info("Generation started", {
-        orgId: ctx.orgId,
-        voiceId: input.voiceId,
-        textLength: input.text.length,
-      });
-
       if (error) {
+        // Keep the user-facing message generic, but record why it failed:
+        // 403 = wrong CHATTERBOX_API_KEY, 400 = voice_key missing in the
+        // Chatterbox service's bucket.
+        Sentry.logger.error("Chatterbox request failed", {
+          orgId: ctx.orgId,
+          voiceId: input.voiceId,
+          status: response.status,
+        });
+
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",
           message: "Failed to generate audio",

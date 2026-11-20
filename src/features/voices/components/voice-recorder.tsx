@@ -1,3 +1,4 @@
+import { useCallback, useEffect, useRef } from "react";
 import {
   Mic,
   Square,
@@ -12,6 +13,7 @@ import { cn, formatFileSize } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useAudioPlayback } from "@/hooks/use-audio-playback";
 import { useAudioRecorder } from "@/features/voices/hooks/use-audio-recorder";
+import { MAX_RECORDING_SECONDS } from "@/features/voices/data/upload-limits";
 
 function formatTime(seconds: number) {
   const h = Math.floor(seconds / 3600);
@@ -42,14 +44,28 @@ export function VoiceRecorder({
     resetRecording,
   } = useAudioRecorder();
 
-  const handleStop = () => {
+  const handleStop = useCallback(() => {
     stopRecording((blob) => {
       const recordedFile = new File([blob], "recording.wav", {
         type: "audio/wav",
       });
       onFileChange(recordedFile);
     });
-  };
+  }, [stopRecording, onFileChange]);
+
+  // Stop automatically before the recording outgrows the upload limit.
+  const autoStopTriggered = useRef(false);
+  useEffect(() => {
+    if (!isRecording) {
+      autoStopTriggered.current = false;
+      return;
+    }
+    // The timer ticks every 100ms and stopping is async, so only fire once.
+    if (elapsedTime >= MAX_RECORDING_SECONDS && !autoStopTriggered.current) {
+      autoStopTriggered.current = true;
+      handleStop();
+    }
+  }, [isRecording, elapsedTime, handleStop]);
 
   const handleReRecord = () => {
     onFileChange(null);
@@ -162,7 +178,8 @@ export function VoiceRecorder({
           Record your voice
         </p>
         <p className="text-center text-sm text-muted-foreground">
-          Click record to start capturing audio
+          Click record to start capturing audio (up to {MAX_RECORDING_SECONDS}{" "}
+          seconds)
         </p>
       </div>
       <Button

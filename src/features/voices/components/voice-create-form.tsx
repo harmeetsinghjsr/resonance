@@ -62,6 +62,10 @@ import {
   VOICE_CATEGORIES,
   VOICE_CATEGORY_LABELS,
 } from "@/features/voices/data/voice-categories";
+import {
+  MAX_VOICE_UPLOAD_BYTES,
+  MAX_VOICE_UPLOAD_LABEL,
+} from "@/features/voices/data/upload-limits";
 import { VoiceRecorder } from "./voice-recorder";
 
 const LANGUAGE_OPTIONS = locales.all
@@ -97,12 +101,22 @@ function FileDropzone({
     getRootProps, getInputProps, isDragActive, isDragReject
   } = useDropzone({
     accept: { "audio/*": [] },
-    maxSize: 20 * 1024 * 1024,
+    maxSize: MAX_VOICE_UPLOAD_BYTES,
     multiple: false,
     onDrop: (acceptedFiles) => {
       if (acceptedFiles.length > 0) {
         onFileChange(acceptedFiles[0]);
       }
+    },
+    onDropRejected: (rejections) => {
+      const tooLarge = rejections.some((r) =>
+        r.errors.some((e) => e.code === "file-too-large"),
+      );
+      toast.error(
+        tooLarge
+          ? `File is too large. Maximum size is ${MAX_VOICE_UPLOAD_LABEL}.`
+          : "Please choose a valid audio file.",
+      );
     },
   });
 
@@ -168,7 +182,7 @@ function FileDropzone({
         </p>
 
         <p className="text-center text-sm text-muted-foreground">
-          Supports all audio formats, max size 20MB
+          Supports all audio formats, max size {MAX_VOICE_UPLOAD_LABEL}
         </p>
       </div>
 
@@ -292,8 +306,14 @@ export function VoiceCreateForm({
         });
 
       if (!response.ok) {
-        const body = await response.json();
-        throw new Error(body.error ?? "Failed to create voice");
+        if (response.status === 413) {
+          throw new Error(
+            `Audio file is too large. Maximum size is ${MAX_VOICE_UPLOAD_LABEL}.`,
+          );
+        }
+        // Platform-level errors may not be JSON, so don't assume a body.
+        const body = await response.json().catch(() => null);
+        throw new Error(body?.error ?? "Failed to create voice");
       }
 
       return response.json();
